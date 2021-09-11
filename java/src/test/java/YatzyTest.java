@@ -67,6 +67,7 @@ public class YatzyTest {
         assertEquals(6,new Yatzy(3, 4, 3, 5, 6).score_pair());
         assertEquals(10,new Yatzy(5, 3, 3, 3, 5).score_pair());
         assertEquals(12,new Yatzy(5, 3, 6, 6, 5).score_pair());
+        assertEquals(12,new Yatzy(5, 6, 6, 6, 5).score_pair());
     }
 
     @Test
@@ -84,7 +85,7 @@ public class YatzyTest {
 
     @Test
     public void four_of_a_knd() {
-        assertEquals(12,new Yatzy(3, 3, 3, 3, 5).four_of_a_kind());
+        assertEquals(12, new Yatzy(3, 3, 3, 3, 5).four_of_a_kind());
         assertEquals(20, new Yatzy(5, 5, 5, 4, 5).four_of_a_kind());
     }
 

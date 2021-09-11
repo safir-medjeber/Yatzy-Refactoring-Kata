@@ -58,7 +58,7 @@ public class Yatzy {
     public int score_pair() {
         int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
         for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
-            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) == 2) {
+            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= 2) {
                 return 2 * dicesSortedDesc[i];
             }
         }
@@ -81,32 +81,20 @@ public class Yatzy {
     }
 
     public int three_of_a_kind() {
-        int[] t;
-        t = new int[6];
-        t[dices[0] - 1]++;
-        t[dices[1] - 1]++;
-        t[dices[2] - 1]++;
-        t[dices[3] - 1]++;
-        t[dices[4] - 1]++;
-        for (int i = 0; i < 6; i++) {
-            if (t[i] >= 3) {
-                return (i + 1) * 3;
+        int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
+        for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
+            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= 3) {
+                return 3 * dicesSortedDesc[i];
             }
         }
         return 0;
     }
 
     public  int four_of_a_kind() {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[dices[0] - 1]++;
-        tallies[dices[1] - 1]++;
-        tallies[dices[2] - 1]++;
-        tallies[dices[3] - 1]++;
-        tallies[dices[4] - 1]++;
-        for (int i = 0; i < 6; i++) {
-            if (tallies[i] >= 4) {
-                return (i + 1) * 4;
+        int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
+        for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
+            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= 4) {
+                return 4 * dicesSortedDesc[i];
             }
         }
         return 0;
