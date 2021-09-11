@@ -119,21 +119,13 @@ public class Yatzy {
     }
 
     public int largeStraight() {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[dices[0] - 1] += 1;
-        tallies[dices[1] - 1] += 1;
-        tallies[dices[2] - 1] += 1;
-        tallies[dices[3] - 1] += 1;
-        tallies[dices[4] - 1] += 1;
-        if (tallies[1] == 1 &&
-            tallies[2] == 1 &&
-            tallies[3] == 1 &&
-            tallies[4] == 1
-            && tallies[5] == 1) {
-            return 20;
+        int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
+        for (int i = 0; i < dices.length - 1; i++) {
+            if (dicesSortedDesc[i] != dicesSortedDesc[i + 1] -1) {
+                return 0;
+            }
         }
-        return 0;
+        return 20;
     }
 
     public  int fullHouse() {
