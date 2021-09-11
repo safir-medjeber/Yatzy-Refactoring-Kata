@@ -56,10 +56,11 @@ public class Yatzy {
     }
 
     public int score_pair() {
+        int combination = 2;
         int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
         for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
-            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= 2) {
-                return 2 * dicesSortedDesc[i];
+            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= combination) {
+                return combination * dicesSortedDesc[i];
             }
         }
         return 0;
@@ -72,29 +73,30 @@ public class Yatzy {
     public  int two_pair() {
         int score = 0;
         int[] dicesSortedWithoutDuplication = IntStream.of(dices).sorted().distinct().toArray();
+        int combination = 2;
         for (int i = 0; i < dicesSortedWithoutDuplication.length; i++) {
-            if (countDiceOccurrences(dicesSortedWithoutDuplication[i], dices) >= 2) {
-                score += dicesSortedWithoutDuplication[i]* 2;
+            if (countDiceOccurrences(dicesSortedWithoutDuplication[i], dices) >= combination) {
+                score += dicesSortedWithoutDuplication[i]* combination;
             }
         }
         return score;
     }
 
     public int three_of_a_kind() {
-        int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
-        for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
-            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= 3) {
-                return 3 * dicesSortedDesc[i];
-            }
-        }
-        return 0;
+        int combination = 3;
+        return getScore(combination);
     }
 
     public  int four_of_a_kind() {
+        int combination = 4;
+        return getScore(combination);
+    }
+
+    private Integer getScore(int combination) {
         int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
         for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
-            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= 4) {
-                return 4 * dicesSortedDesc[i];
+            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= combination) {
+                return combination * dicesSortedDesc[i];
             }
         }
         return 0;
