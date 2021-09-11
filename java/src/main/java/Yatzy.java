@@ -70,13 +70,13 @@ public class Yatzy {
         return (int) Arrays.stream(dices).filter(currentDice -> currentDice == dice).count();
     }
 
-    public  int two_pair() {
+    public int two_pair() {
         int score = 0;
         int[] dicesSortedWithoutDuplication = IntStream.of(dices).sorted().distinct().toArray();
         int combination = 2;
         for (int i = 0; i < dicesSortedWithoutDuplication.length; i++) {
             if (countDiceOccurrences(dicesSortedWithoutDuplication[i], dices) >= combination) {
-                score += dicesSortedWithoutDuplication[i]* combination;
+                score += dicesSortedWithoutDuplication[i] * combination;
             }
         }
         return score;
@@ -87,7 +87,7 @@ public class Yatzy {
         return getScore(combination);
     }
 
-    public  int four_of_a_kind() {
+    public int four_of_a_kind() {
         int combination = 4;
         return getScore(combination);
     }
@@ -102,39 +102,30 @@ public class Yatzy {
         return 0;
     }
 
-    public  int smallStraight() {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[dices[0] - 1] += 1;
-        tallies[dices[1] - 1] += 1;
-        tallies[dices[2] - 1] += 1;
-        tallies[dices[3] - 1] += 1;
-        tallies[dices[4] - 1] += 1;
-        if (tallies[0] == 1 &&
-            tallies[1] == 1 &&
-            tallies[2] == 1 &&
-            tallies[3] == 1 &&
-            tallies[4] == 1) {
-            return 15;
-        }
-        return 0;
+    public int smallStraight() {
+        return calculateStraight() == 15 ? 15 : 0;
     }
 
     public int largeStraight() {
+        return calculateStraight() == 20 ? 20 : 0;
+    }
+
+    private int calculateStraight() {
         int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
         for (int i = 0; i < dices.length - 1; i++) {
-            if (dicesSortedDesc[i] != dicesSortedDesc[i + 1] -1) {
+            if (dicesSortedDesc[i] != dicesSortedDesc[i + 1] - 1) {
                 return 0;
             }
         }
-        return 20;
+        return Arrays.stream(dicesSortedDesc).sum();
     }
 
-    public  int fullHouse() {
+    public int fullHouse() {
         int pair = score_pair();
         int three = three_of_a_kind();
-        if( pair + three == Arrays.stream(dices).sum())
+        if (pair + three == Arrays.stream(dices).sum()) {
             return pair + three;
+        }
         return 0;
     }
 }
