@@ -1,27 +1,25 @@
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.stream.IntStream;
 
 public class Yatzy {
 
-    private int[] dice;
+    private int[] dices;
 
     public Yatzy(int d1, int d2, int d3, int d4, int d5) {
-        dice = new int[5];
-        dice[0] = d1;
-        dice[1] = d2;
-        dice[2] = d3;
-        dice[3] = d4;
-        dice[4] = d5;
+        dices = new int[5];
+        dices[0] = d1;
+        dices[1] = d2;
+        dices[2] = d3;
+        dices[3] = d4;
+        dices[4] = d5;
     }
 
     public int chance() {
-        return Arrays.stream(dice).sum();
+        return Arrays.stream(dices).sum();
     }
 
-    public int calculatePoints(int combinaison) {
-        return (int) (Arrays.stream(dice).filter(d -> d == combinaison).count() * combinaison);
+    public int calculatePoints(int combination) {
+        return (int) (Arrays.stream(dices).filter(d -> d == combination).count() * combination);
     }
 
     public int ones() {
@@ -49,8 +47,8 @@ public class Yatzy {
     }
 
     public int yatzy() {
-        for (int i = 0; i < dice.length - 1; i++) {
-            if (dice[i] != dice[i + 1]) {
+        for (int i = 0; i < dices.length - 1; i++) {
+            if (dices[i] != dices[i + 1]) {
                 return 0;
             }
         }
@@ -58,54 +56,38 @@ public class Yatzy {
     }
 
     public int score_pair() {
-        int[] dicesSortedDesc = IntStream.of(dice).sorted().toArray();
+        int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
         for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
-            if (countOccurrences(dicesSortedDesc[i], dicesSortedDesc) == 2) {
+            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) == 2) {
                 return 2 * dicesSortedDesc[i];
             }
         }
         return 0;
     }
 
-    private int countOccurrences(int element, int[] dicesSorted) {
-        return (int) Arrays.stream(dicesSorted).filter(r -> r == element).count();
+    private int countDiceOccurrences(int dice, int[] dices) {
+        return (int) Arrays.stream(dices).filter(currentDice -> currentDice == dice).count();
     }
 
     public  int two_pair() {
         int score = 0;
-        int[] dicesSortedWithoutDuplication = IntStream.of(dice).sorted().distinct().toArray();
+        int[] dicesSortedWithoutDuplication = IntStream.of(dices).sorted().distinct().toArray();
         for (int i = 0; i < dicesSortedWithoutDuplication.length; i++) {
-            if (countOccurrences(dicesSortedWithoutDuplication[i], dice) >= 2) {
-                score += (dicesSortedWithoutDuplication[i]* 2);
+            if (countDiceOccurrences(dicesSortedWithoutDuplication[i], dices) >= 2) {
+                score += dicesSortedWithoutDuplication[i]* 2;
             }
         }
         return score;
     }
 
-    public static int four_of_a_kind(int _1, int _2, int d3, int d4, int d5) {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[_1 - 1]++;
-        tallies[_2 - 1]++;
-        tallies[d3 - 1]++;
-        tallies[d4 - 1]++;
-        tallies[d5 - 1]++;
-        for (int i = 0; i < 6; i++) {
-            if (tallies[i] >= 4) {
-                return (i + 1) * 4;
-            }
-        }
-        return 0;
-    }
-
-    public static int three_of_a_kind(int d1, int d2, int d3, int d4, int d5) {
+    public int three_of_a_kind() {
         int[] t;
         t = new int[6];
-        t[d1 - 1]++;
-        t[d2 - 1]++;
-        t[d3 - 1]++;
-        t[d4 - 1]++;
-        t[d5 - 1]++;
+        t[dices[0] - 1]++;
+        t[dices[1] - 1]++;
+        t[dices[2] - 1]++;
+        t[dices[3] - 1]++;
+        t[dices[4] - 1]++;
         for (int i = 0; i < 6; i++) {
             if (t[i] >= 3) {
                 return (i + 1) * 3;
@@ -114,14 +96,30 @@ public class Yatzy {
         return 0;
     }
 
-    public static int smallStraight(int d1, int d2, int d3, int d4, int d5) {
+    public  int four_of_a_kind() {
         int[] tallies;
         tallies = new int[6];
-        tallies[d1 - 1] += 1;
-        tallies[d2 - 1] += 1;
-        tallies[d3 - 1] += 1;
-        tallies[d4 - 1] += 1;
-        tallies[d5 - 1] += 1;
+        tallies[dices[0] - 1]++;
+        tallies[dices[1] - 1]++;
+        tallies[dices[2] - 1]++;
+        tallies[dices[3] - 1]++;
+        tallies[dices[4] - 1]++;
+        for (int i = 0; i < 6; i++) {
+            if (tallies[i] >= 4) {
+                return (i + 1) * 4;
+            }
+        }
+        return 0;
+    }
+
+    public  int smallStraight() {
+        int[] tallies;
+        tallies = new int[6];
+        tallies[dices[0] - 1] += 1;
+        tallies[dices[1] - 1] += 1;
+        tallies[dices[2] - 1] += 1;
+        tallies[dices[3] - 1] += 1;
+        tallies[dices[4] - 1] += 1;
         if (tallies[0] == 1 &&
             tallies[1] == 1 &&
             tallies[2] == 1 &&
@@ -132,14 +130,14 @@ public class Yatzy {
         return 0;
     }
 
-    public static int largeStraight(int d1, int d2, int d3, int d4, int d5) {
+    public int largeStraight() {
         int[] tallies;
         tallies = new int[6];
-        tallies[d1 - 1] += 1;
-        tallies[d2 - 1] += 1;
-        tallies[d3 - 1] += 1;
-        tallies[d4 - 1] += 1;
-        tallies[d5 - 1] += 1;
+        tallies[dices[0] - 1] += 1;
+        tallies[dices[1] - 1] += 1;
+        tallies[dices[2] - 1] += 1;
+        tallies[dices[3] - 1] += 1;
+        tallies[dices[4] - 1] += 1;
         if (tallies[1] == 1 &&
             tallies[2] == 1 &&
             tallies[3] == 1 &&
@@ -150,7 +148,7 @@ public class Yatzy {
         return 0;
     }
 
-    public static int fullHouse(int d1, int d2, int d3, int d4, int d5) {
+    public  int fullHouse() {
         int[] tallies;
         boolean _2 = false;
         int i;
@@ -159,11 +157,11 @@ public class Yatzy {
         int _3_at = 0;
 
         tallies = new int[6];
-        tallies[d1 - 1] += 1;
-        tallies[d2 - 1] += 1;
-        tallies[d3 - 1] += 1;
-        tallies[d4 - 1] += 1;
-        tallies[d5 - 1] += 1;
+        tallies[dices[0] - 1] += 1;
+        tallies[dices[1] - 1] += 1;
+        tallies[dices[2] - 1] += 1;
+        tallies[dices[3] - 1] += 1;
+        tallies[dices[4] - 1] += 1;
 
         for (i = 0; i != 6; i += 1) {
             if (tallies[i] == 2) {
