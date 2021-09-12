@@ -7,15 +7,15 @@ public class Yatzy {
     public static final int SMALL_STRAIGHT_SCORE = 15;
     public static final int LARGE_STRAIGHT_SCORE = 20;
 
-    private final int[] dices;
+    private final int[] dice;
 
     public Yatzy(int d1, int d2, int d3, int d4, int d5) {
-        dices = new int[5];
-        dices[0] = d1;
-        dices[1] = d2;
-        dices[2] = d3;
-        dices[3] = d4;
-        dices[4] = d5;
+        dice = new int[5];
+        dice[0] = d1;
+        dice[1] = d2;
+        dice[2] = d3;
+        dice[3] = d4;
+        dice[4] = d5;
     }
 
     public int scoreOnes() {
@@ -43,11 +43,11 @@ public class Yatzy {
     }
 
     public int scoreChance() {
-        return Arrays.stream(dices).sum();
+        return Arrays.stream(dice).sum();
     }
 
     public int scoreYatzy() {
-        return isAllDicesValueAreTheSame() ? YATZY_SCORE : 0;
+        return isAllDiceHasSameValue() ? YATZY_SCORE : 0;
     }
 
     public int scorePair() {
@@ -57,10 +57,10 @@ public class Yatzy {
     public int scoreTwoPair() {
         int score = 0;
         int occurrences = 2;
-        int[] dicesSortedWithoutDuplication = IntStream.of(dices).sorted().distinct().toArray();
-        for (int dice : dicesSortedWithoutDuplication) {
-            if (countDiceOccurrences(dice, dices) >= occurrences) {
-                score += dice * occurrences;
+        int[] dicesSortedWithoutDuplication = IntStream.of(dice).sorted().distinct().toArray();
+        for (int die : dicesSortedWithoutDuplication) {
+            if (countDiceOccurrences(die, this.dice) >= occurrences) {
+                score += die * occurrences;
             }
         }
         return score;
@@ -86,35 +86,35 @@ public class Yatzy {
         return calculateStraight() == LARGE_STRAIGHT_SCORE ? LARGE_STRAIGHT_SCORE : 0;
     }
 
-    private boolean isAllDicesValueAreTheSame() {
-        return Arrays.stream(dices).distinct().count() == 1;
+    private boolean isAllDiceHasSameValue() {
+        return Arrays.stream(dice).distinct().count() == 1;
     }
 
     private Integer getScoreByOccurrences(int occurrences) {
-        int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
-        for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
-            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= occurrences) {
-                return occurrences * dicesSortedDesc[i];
+        int[] diceSorted = IntStream.of(dice).sorted().toArray();
+        for (int i = diceSorted.length - 1; i >= 0; i--) {
+            if (countDiceOccurrences(diceSorted[i], diceSorted) >= occurrences) {
+                return occurrences * diceSorted[i];
             }
         }
         return 0;
     }
 
-    private int countDiceOccurrences(int dice, int[] dices) {
-        return (int) Arrays.stream(dices).filter(currentDice -> currentDice == dice).count();
+    private int countDiceOccurrences(int die, int[] dice) {
+        return (int) Arrays.stream(dice).filter(currentDie -> currentDie == die).count();
     }
 
     public int calculateScoreByCombination(int combination) {
-        return (int) (Arrays.stream(dices).filter(d -> d == combination).count() * combination);
+        return (int) (Arrays.stream(dice).filter(currentDie -> currentDie == combination).count() * combination);
     }
 
     private int calculateStraight() {
-        int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
-        for (int i = 0; i < dices.length - 1; i++) {
-            if (dicesSortedDesc[i] != dicesSortedDesc[i + 1] - 1) {
+        int[] diceSorted = IntStream.of(dice).sorted().toArray();
+        for (int i = 0; i < dice.length - 1; i++) {
+            if (diceSorted[i] != diceSorted[i + 1] - 1) {
                 return 0;
             }
         }
-        return Arrays.stream(dicesSortedDesc).sum();
+        return scoreChance();
     }
 }
