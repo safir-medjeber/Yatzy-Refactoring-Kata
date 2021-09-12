@@ -137,9 +137,15 @@ public class YatzyTest {
     }
 
     @Test
-    public void two_Pair() {
-       assertEquals(16, new Yatzy(new int[]{3, 3, 5, 4, 5}).scoreTwoPair());
-        assertEquals(16, new Yatzy(new int[]{3, 3, 5, 5, 5}).scoreTwoPair());
+    public void given_two_pairs_should_sum_these_pairs() {
+        Yatzy yatzyCase1 = new Yatzy(new int[]{3, 3, 5, 4, 5});
+        Yatzy yatzyCase2 = new Yatzy(new int[]{3, 3, 5, 5, 5});
+
+        int resultCase1 = yatzyCase1.scoreTwoPairs();
+        int resultCase2 = yatzyCase2.scoreTwoPairs();
+
+        assertEquals(16, resultCase1);
+        assertEquals(16, resultCase2);
     }
 
     @Test
