@@ -52,8 +52,11 @@ class Yatzy {
 
     public int scoreTwoPairs() {
         final int occurrences = 2;
-        return IntStream.of(dice).sorted().distinct()
-                        .filter(die->this.countDieOccurrences(die) >= occurrences).sum() * occurrences;
+        return IntStream.of(dice)
+                        .sorted()
+                        .distinct()
+                        .filter(die -> this.countDieOccurrences(die) >= occurrences)
+                        .sum() * occurrences;
     }
 
     public int scoreThreeOfAKind() {
