@@ -3,6 +3,9 @@ import java.util.stream.IntStream;
 
 public class Yatzy {
 
+    public static final int YATZY_SCORE = 50;
+    public static final int SMALL_STRAIGHT_SCORE = 15;
+    public static final int LARGE_STRAIGHT_SCORE = 20;
     private final int[] dices;
 
     public Yatzy(int d1, int d2, int d3, int d4, int d5) {
@@ -15,97 +18,93 @@ public class Yatzy {
     }
 
     public int ones() {
-        return calculatePoints(1);
+        return calculateScoreByCombination(1);
     }
 
     public int twos() {
-        return calculatePoints(2);
+        return calculateScoreByCombination(2);
     }
 
     public int threes() {
-        return calculatePoints(3);
+        return calculateScoreByCombination(3);
     }
 
     public int fours() {
-        return calculatePoints(4);
+        return calculateScoreByCombination(4);
     }
 
     public int fives() {
-        return calculatePoints(5);
+        return calculateScoreByCombination(5);
     }
 
     public int sixes() {
-        return calculatePoints(6);
+        return calculateScoreByCombination(6);
+    }
+
+    public int calculateScoreByCombination(int combination) {
+        return (int) (Arrays.stream(dices).filter(d -> d == combination).count() * combination);
     }
 
     public int chance() {
         return Arrays.stream(dices).sum();
     }
 
-    public int calculatePoints(int combination) {
-        return (int) (Arrays.stream(dices).filter(d -> d == combination).count() * combination);
+    public int yatzy() {
+        return isAllElementAreTheSame() ? YATZY_SCORE : 0;
     }
 
-    public int yatzy() {
-        for (int i = 0; i < dices.length - 1; i++) {
-            if (dices[i] != dices[i + 1]) {
-                return 0;
-            }
-        }
-        return 50;
+    private boolean isAllElementAreTheSame() {
+        return Arrays.stream(dices).distinct().count() == 1;
     }
 
     public int score_pair() {
-        int combination = 2;
-        return getInteger(combination);
+        int occurrences = 2;
+        return getScoreByOccurrences(occurrences);
     }
 
+    private Integer getScoreByOccurrences(int occurrences) {
+        int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
+        for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
+            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= occurrences) {
+                return occurrences * dicesSortedDesc[i];
+            }
+        }
+        return 0;
+    }
     private int countDiceOccurrences(int dice, int[] dices) {
         return (int) Arrays.stream(dices).filter(currentDice -> currentDice == dice).count();
     }
 
     public int two_pair() {
         int score = 0;
+        int occurrences = 2;
         int[] dicesSortedWithoutDuplication = IntStream.of(dices).sorted().distinct().toArray();
-        int combination = 2;
-        for (int j : dicesSortedWithoutDuplication) {
-            if (countDiceOccurrences(j, dices) >= combination) {
-                score += j * combination;
+        for (int dice : dicesSortedWithoutDuplication) {
+            if (countDiceOccurrences(dice, dices) >= occurrences) {
+                score += dice * occurrences;
             }
         }
         return score;
     }
 
     public int three_of_a_kind() {
-        int combination = 3;
-        return getScore(combination);
+        int occurrences = 3;
+        return getScoreByOccurrences(occurrences);
     }
 
     public int four_of_a_kind() {
-        int combination = 4;
-        return getScore(combination);
+        int occurrences = 4;
+        return getScoreByOccurrences(occurrences);
     }
 
-    private Integer getScore(int combination) {
-        return getInteger(combination);
-    }
 
-    private Integer getInteger(int combination) {
-        int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
-        for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
-            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= combination) {
-                return combination * dicesSortedDesc[i];
-            }
-        }
-        return 0;
-    }
 
     public int smallStraight() {
-        return calculateStraight() == 15 ? 15 : 0;
+        return calculateStraight() == SMALL_STRAIGHT_SCORE ? SMALL_STRAIGHT_SCORE : 0;
     }
 
     public int largeStraight() {
-        return calculateStraight() == 20 ? 20 : 0;
+        return calculateStraight() == LARGE_STRAIGHT_SCORE ? LARGE_STRAIGHT_SCORE : 0;
     }
 
     private int calculateStraight() {
@@ -119,11 +118,6 @@ public class Yatzy {
     }
 
     public int fullHouse() {
-        int pair = score_pair();
-        int three = three_of_a_kind();
-        if (pair + three == Arrays.stream(dices).sum()) {
-            return pair + three;
-        }
-        return 0;
+        return score_pair() + three_of_a_kind() == chance() ? score_pair() + three_of_a_kind() : 0;
     }
 }
