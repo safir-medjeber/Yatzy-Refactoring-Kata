@@ -59,7 +59,7 @@ public class Yatzy {
         int occurrences = 2;
         int[] dicesSortedWithoutDuplication = IntStream.of(dice).sorted().distinct().toArray();
         for (int die : dicesSortedWithoutDuplication) {
-            if (countDiceOccurrences(die, this.dice) >= occurrences) {
+            if (countDieOccurrences(die, this.dice) >= occurrences) {
                 score += die * occurrences;
             }
         }
@@ -93,14 +93,14 @@ public class Yatzy {
     private Integer getScoreByOccurrences(int occurrences) {
         int[] diceSorted = IntStream.of(dice).sorted().toArray();
         for (int i = diceSorted.length - 1; i >= 0; i--) {
-            if (countDiceOccurrences(diceSorted[i], diceSorted) >= occurrences) {
+            if (countDieOccurrences(diceSorted[i], diceSorted) >= occurrences) {
                 return occurrences * diceSorted[i];
             }
         }
         return 0;
     }
 
-    private int countDiceOccurrences(int die, int[] dice) {
+    private int countDieOccurrences(int die, int[] dice) {
         return (int) Arrays.stream(dice).filter(currentDie -> currentDie == die).count();
     }
 
