@@ -6,6 +6,7 @@ public class Yatzy {
     public static final int YATZY_SCORE = 50;
     public static final int SMALL_STRAIGHT_SCORE = 15;
     public static final int LARGE_STRAIGHT_SCORE = 20;
+
     private final int[] dices;
 
     public Yatzy(int d1, int d2, int d3, int d4, int d5) {
@@ -46,7 +47,7 @@ public class Yatzy {
     }
 
     public int yatzy() {
-        return isAllElementAreTheSame() ? YATZY_SCORE : 0;
+        return isAllDicesValueAreTheSame() ? YATZY_SCORE : 0;
     }
 
     public int score_pair() {
@@ -88,7 +89,7 @@ public class Yatzy {
         return calculateStraight() == LARGE_STRAIGHT_SCORE ? LARGE_STRAIGHT_SCORE : 0;
     }
 
-    private boolean isAllElementAreTheSame() {
+    private boolean isAllDicesValueAreTheSame() {
         return Arrays.stream(dices).distinct().count() == 1;
     }
 
@@ -101,10 +102,10 @@ public class Yatzy {
         }
         return 0;
     }
+
     private int countDiceOccurrences(int dice, int[] dices) {
         return (int) Arrays.stream(dices).filter(currentDice -> currentDice == dice).count();
     }
-
 
 
     public int calculateScoreByCombination(int combination) {
