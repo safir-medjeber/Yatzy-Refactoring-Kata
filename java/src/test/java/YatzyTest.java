@@ -89,17 +89,33 @@ public class YatzyTest {
     }
 
     @Test
-    public void fives() {
-        assertEquals(10, new Yatzy(new int[]{4, 4, 4, 5, 5}).scoreFives());
-        assertEquals(15, new Yatzy(new int[]{4, 4, 5, 5, 5}).scoreFives());
-        assertEquals(20, new Yatzy(new int[]{4, 5, 5, 5, 5}).scoreFives());
+    public void act_score_fives_should_sum_all_dice_with_value_5() {
+        Yatzy yatzyCase1 = new Yatzy(new int[]{4, 4, 4, 5, 5});
+        Yatzy yatzyCase2 = new Yatzy(new int[]{4, 4, 5, 5, 5});
+        Yatzy yatzyCase3 = new Yatzy(new int[]{4, 5, 5, 5, 5});
+
+        int resultCase1 = yatzyCase1.scoreFives();
+        int resultCase2 = yatzyCase2.scoreFives();
+        int resultCase3 = yatzyCase3.scoreFives();
+
+        assertEquals(10, resultCase1);
+        assertEquals(15, resultCase2);
+        assertEquals(20, resultCase3);
     }
 
     @Test
-    public void sixes_test() {
-        assertEquals(0, new Yatzy(new int[]{4, 4, 4, 5, 5}).scoreSixes());
-        assertEquals(6, new Yatzy(new int[]{4, 4, 6, 5, 5}).scoreSixes());
-        assertEquals(18, new Yatzy(new int[]{6, 5, 6, 6, 5}).scoreSixes());
+    public void act_score_sixes_should_sum_all_dice_with_value_6() {
+        Yatzy yatzyCase1 = new Yatzy(new int[]{4, 4, 4, 5, 5});
+        Yatzy yatzyCase2 = new Yatzy(new int[]{4, 4, 6, 5, 5});
+        Yatzy yatzyCase3 = new Yatzy(new int[]{6, 5, 6, 6, 5});
+
+        int resultCase1 = yatzyCase1.scoreSixes();
+        int resultCase2 = yatzyCase2.scoreSixes();
+        int resultCase3 = yatzyCase3.scoreSixes();
+
+        assertEquals(0, resultCase1);
+        assertEquals(6, resultCase2);
+        assertEquals(18, resultCase3);
     }
 
     @Test
