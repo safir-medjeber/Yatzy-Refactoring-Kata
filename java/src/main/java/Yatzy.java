@@ -101,12 +101,16 @@ class Yatzy {
     }
 
     private int calculateStraight() {
+        return isStraight() ? scoreChance() : 0;
+    }
+
+    private boolean isStraight() {
         int[] diceSorted = IntStream.of(dice).sorted().toArray();
         for (int i = 0; i < dice.length - 1; i++) {
             if (diceSorted[i] != diceSorted[i + 1] - 1) {
-                return 0;
+                return false;
             }
         }
-        return scoreChance();
+        return true;
     }
 }
