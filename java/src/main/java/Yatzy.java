@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.stream.IntStream;
 
 class Yatzy {
@@ -84,13 +85,11 @@ class Yatzy {
     }
 
     private Integer getScoreByOccurrences(int occurrences) {
-        int[] diceSorted = IntStream.of(dice).sorted().toArray();
-        for (int i = diceSorted.length - 1; i >= 0; i--) {
-            if (countDieOccurrences(diceSorted[i], diceSorted) >= occurrences) {
-                return occurrences * diceSorted[i];
-            }
-        }
-        return 0;
+        return Arrays.stream(dice).boxed()
+                     .sorted(Comparator.reverseOrder())
+                     .filter(die -> countDieOccurrences(die) >= occurrences)
+                     .findFirst().map(die -> die * occurrences)
+                     .orElse(0);
     }
 
     private int countDieOccurrences(int die) {
