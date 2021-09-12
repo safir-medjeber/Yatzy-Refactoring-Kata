@@ -3,7 +3,7 @@ import java.util.stream.IntStream;
 
 public class Yatzy {
 
-    private int[] dices;
+    private final int[] dices;
 
     public Yatzy(int d1, int d2, int d3, int d4, int d5) {
         dices = new int[5];
@@ -12,14 +12,6 @@ public class Yatzy {
         dices[2] = d3;
         dices[3] = d4;
         dices[4] = d5;
-    }
-
-    public int chance() {
-        return Arrays.stream(dices).sum();
-    }
-
-    public int calculatePoints(int combination) {
-        return (int) (Arrays.stream(dices).filter(d -> d == combination).count() * combination);
     }
 
     public int ones() {
@@ -46,6 +38,14 @@ public class Yatzy {
         return calculatePoints(6);
     }
 
+    public int chance() {
+        return Arrays.stream(dices).sum();
+    }
+
+    public int calculatePoints(int combination) {
+        return (int) (Arrays.stream(dices).filter(d -> d == combination).count() * combination);
+    }
+
     public int yatzy() {
         for (int i = 0; i < dices.length - 1; i++) {
             if (dices[i] != dices[i + 1]) {
@@ -57,13 +57,7 @@ public class Yatzy {
 
     public int score_pair() {
         int combination = 2;
-        int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
-        for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
-            if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= combination) {
-                return combination * dicesSortedDesc[i];
-            }
-        }
-        return 0;
+        return getInteger(combination);
     }
 
     private int countDiceOccurrences(int dice, int[] dices) {
@@ -74,9 +68,9 @@ public class Yatzy {
         int score = 0;
         int[] dicesSortedWithoutDuplication = IntStream.of(dices).sorted().distinct().toArray();
         int combination = 2;
-        for (int i = 0; i < dicesSortedWithoutDuplication.length; i++) {
-            if (countDiceOccurrences(dicesSortedWithoutDuplication[i], dices) >= combination) {
-                score += dicesSortedWithoutDuplication[i] * combination;
+        for (int j : dicesSortedWithoutDuplication) {
+            if (countDiceOccurrences(j, dices) >= combination) {
+                score += j * combination;
             }
         }
         return score;
@@ -93,6 +87,10 @@ public class Yatzy {
     }
 
     private Integer getScore(int combination) {
+        return getInteger(combination);
+    }
+
+    private Integer getInteger(int combination) {
         int[] dicesSortedDesc = IntStream.of(dices).sorted().toArray();
         for (int i = dicesSortedDesc.length - 1; i >= 0; i--) {
             if (countDiceOccurrences(dicesSortedDesc[i], dicesSortedDesc) >= combination) {
