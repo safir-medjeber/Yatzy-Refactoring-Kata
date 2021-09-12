@@ -119,11 +119,21 @@ public class YatzyTest {
     }
 
     @Test
-    public void one_pair() {
-        assertEquals(6,new Yatzy(new int[]{3, 4, 3, 5, 6}).scorePair());
-        assertEquals(10,new Yatzy(new int[]{5, 3, 3, 3, 5}).scorePair());
-        assertEquals(12,new Yatzy(new int[]{5, 3, 6, 6, 5}).scorePair());
-        assertEquals(12,new Yatzy(new int[]{5, 6, 6, 6, 5}).scorePair());
+    public void given_one_pair_or_two_should_sum_the_higher_pair() {
+        Yatzy yatzyCase1 = new Yatzy(new int[]{3, 4, 3, 5, 6});
+        Yatzy yatzyCase2 = new Yatzy(new int[]{5, 3, 3, 3, 5});
+        Yatzy yatzyCase3 = new Yatzy(new int[]{5, 3, 6, 6, 5});
+        Yatzy yatzyCase4 = new Yatzy(new int[]{5, 6, 6, 6, 5});
+
+        int resultCase1 = yatzyCase1.scorePair();
+        int resultCase2 = yatzyCase2.scorePair();
+        int resultCase3 = yatzyCase3.scorePair();
+        int resultCase4 = yatzyCase4.scorePair();
+
+        assertEquals(6, resultCase1);
+        assertEquals(10, resultCase2);
+        assertEquals(12, resultCase3);
+        assertEquals(12, resultCase4);
     }
 
     @Test

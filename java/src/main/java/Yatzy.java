@@ -11,9 +11,7 @@ class Yatzy {
 
     public Yatzy(int[] dice) {
         this.dice = new int[5];
-        for (int i = 0; i < this.dice.length; i++) {
-            this.dice[i] = dice[i];
-        }
+        System.arraycopy(dice, 0, this.dice, 0, this.dice.length);
     }
 
     public int scoreOnes() {
@@ -53,15 +51,9 @@ class Yatzy {
     }
 
     public int scoreTwoPair() {
-        int score = 0;
         final int occurrences = 2;
-        int[] dicesSortedWithoutDuplication = IntStream.of(dice).sorted().distinct().toArray();
-        for (int die : dicesSortedWithoutDuplication) {
-            if (countDieOccurrences(die, this.dice) >= occurrences) {
-                score += die * occurrences;
-            }
-        }
-        return score;
+        return IntStream.of(dice).sorted().distinct()
+                        .filter(die->this.countDieOccurrences(die) >= occurrences).sum() * occurrences;
     }
 
     public int scoreThreeOfAKind() {
@@ -96,6 +88,10 @@ class Yatzy {
             }
         }
         return 0;
+    }
+
+    private int countDieOccurrences(int die) {
+        return countDieOccurrences(die, this.dice);
     }
 
     private int countDieOccurrences(int die, int[] dice) {
