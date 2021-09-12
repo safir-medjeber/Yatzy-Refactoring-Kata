@@ -1,21 +1,19 @@
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class Yatzy {
+class Yatzy {
 
-    public static final int YATZY_SCORE = 50;
-    public static final int SMALL_STRAIGHT_SCORE = 15;
-    public static final int LARGE_STRAIGHT_SCORE = 20;
+    private static final int YATZY_SCORE = 50;
+    private static final int SMALL_STRAIGHT_SCORE = 15;
+    private static final int LARGE_STRAIGHT_SCORE = 20;
 
     private final int[] dice;
 
-    public Yatzy(int d1, int d2, int d3, int d4, int d5) {
-        dice = new int[5];
-        dice[0] = d1;
-        dice[1] = d2;
-        dice[2] = d3;
-        dice[3] = d4;
-        dice[4] = d5;
+    public Yatzy(int[] dice) {
+        this.dice = new int[5];
+        for (int i = 0; i < this.dice.length; i++) {
+            this.dice[i] = dice[i];
+        }
     }
 
     public int scoreOnes() {
@@ -56,7 +54,7 @@ public class Yatzy {
 
     public int scoreTwoPair() {
         int score = 0;
-        int occurrences = 2;
+        final int occurrences = 2;
         int[] dicesSortedWithoutDuplication = IntStream.of(dice).sorted().distinct().toArray();
         for (int die : dicesSortedWithoutDuplication) {
             if (countDieOccurrences(die, this.dice) >= occurrences) {
