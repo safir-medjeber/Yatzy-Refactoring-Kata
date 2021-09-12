@@ -5,28 +5,48 @@ import static org.junit.Assert.*;
 public class YatzyTest {
 
     @Test
-    public void chance_scores_sum_of_all_dice() {
-        int expected = 15;
-        int actual = new Yatzy(new int[]{2, 3, 4, 5, 1}).scoreChance();
-        assertEquals(expected, actual);
-        assertEquals(16, new Yatzy(new int[]{3, 3, 4, 5, 1}).scoreChance());
+    public void act_chance_score_should_sum_all_dice() {
+        Yatzy yatzyCase1 = new Yatzy(new int[]{2, 3, 4, 5, 1});
+        Yatzy yatzyCase2 = new Yatzy(new int[]{3, 3, 4, 5, 1});
+
+        int resultCase1 = yatzyCase1.scoreChance();
+        int resultCase2 = yatzyCase2.scoreChance();
+
+        assertEquals(15, resultCase1);
+        assertEquals(16, resultCase2);
     }
 
     @Test
-    public void yatzy_scores_50() {
-        int expected = 50;
-        int actual = new Yatzy(new int[]{4, 4, 4, 4, 4}).scoreYatzy();
-        assertEquals(expected, actual);
-        assertEquals(50, new Yatzy(new int[]{6, 6, 6, 6, 6}).scoreYatzy());
-        assertEquals(0, new Yatzy(new int[]{6, 6, 6, 6, 3}).scoreYatzy());
+    public void given_all_dice_with_same_number_should_return_50() {
+        Yatzy yatzyCase1 = new Yatzy(new int[]{4, 4, 4, 4, 4});
+        Yatzy yatzyCase2 = new Yatzy(new int[]{6, 6, 6, 6, 6});
+        Yatzy yatzyCase3 = new Yatzy(new int[]{6, 6, 6, 6, 3});
+
+        int resultCase1 = yatzyCase1.scoreYatzy();
+        int resultCase2 = yatzyCase2.scoreYatzy();
+        int resultCase3 = yatzyCase3.scoreYatzy();
+
+        assertEquals(50, resultCase1);
+        assertEquals(50, resultCase2);
+        assertEquals(0, resultCase3);
     }
 
     @Test
-    public void test_1s() {
-        assertEquals(1, new Yatzy(new int[]{1, 2, 3, 4, 5}).scoreOnes());
-        assertEquals(2, new Yatzy(new int[]{1, 2, 1, 4, 5}).scoreOnes());
-        assertEquals(0, new Yatzy(new int[]{6, 2, 2, 4, 5}).scoreOnes());
-        assertEquals(4, new Yatzy(new int[]{1, 2, 1, 1, 1}).scoreOnes());
+    public void act_score_ones_should_sum_all_dice_with_value_1() {
+        Yatzy yatzyCase1 = new Yatzy(new int[]{1, 2, 3, 4, 5});
+        Yatzy yatzyCase2 = new Yatzy(new int[]{1, 2, 1, 4, 5});
+        Yatzy yatzyCase3 =new Yatzy(new int[]{6, 2, 2, 4, 5});
+        Yatzy yatzyCase4 = new Yatzy(new int[]{1, 2, 1, 1, 1});
+
+        int resultCase1 = yatzyCase1.scoreOnes();
+        int resultCase2 =  yatzyCase2.scoreOnes();
+        int resultCase3 = yatzyCase3.scoreOnes();
+        int resultCase4 = yatzyCase4.scoreOnes();
+
+        assertEquals(1, resultCase1);
+        assertEquals(2, resultCase2);
+        assertEquals(0, resultCase3);
+        assertEquals(4, resultCase4);
     }
 
     @Test
