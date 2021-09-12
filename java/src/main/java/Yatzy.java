@@ -19,27 +19,27 @@ public class Yatzy {
     }
 
     public int scoreOnes() {
-        return calculateScoreByCombination(1);
+        return calculateScoreByCombinationOf(1);
     }
 
     public int scoreTwos() {
-        return calculateScoreByCombination(2);
+        return calculateScoreByCombinationOf(2);
     }
 
     public int scoreThrees() {
-        return calculateScoreByCombination(3);
+        return calculateScoreByCombinationOf(3);
     }
 
     public int scoreFours() {
-        return calculateScoreByCombination(4);
+        return calculateScoreByCombinationOf(4);
     }
 
     public int scoreFives() {
-        return calculateScoreByCombination(5);
+        return calculateScoreByCombinationOf(5);
     }
 
     public int scoreSixes() {
-        return calculateScoreByCombination(6);
+        return calculateScoreByCombinationOf(6);
     }
 
     public int scoreChance() {
@@ -104,7 +104,7 @@ public class Yatzy {
         return (int) Arrays.stream(dice).filter(currentDie -> currentDie == die).count();
     }
 
-    public int calculateScoreByCombination(int combination) {
+    public int calculateScoreByCombinationOf(int combination) {
         return (int) (Arrays.stream(dice).filter(currentDie -> currentDie == combination).count() * combination);
     }
 
