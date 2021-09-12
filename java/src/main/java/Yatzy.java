@@ -93,11 +93,7 @@ class Yatzy {
     }
 
     private int countDieOccurrences(int die) {
-        return countDieOccurrences(die, this.dice);
-    }
-
-    private int countDieOccurrences(int die, int[] dice) {
-        return (int) Arrays.stream(dice).filter(currentDie -> currentDie == die).count();
+        return (int) Arrays.stream(this.dice).filter(currentDie -> currentDie == die).count();
     }
 
     public int calculateScoreByCombinationOf(int combination) {
